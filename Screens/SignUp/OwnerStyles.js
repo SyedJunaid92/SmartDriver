@@ -30,11 +30,9 @@ const SignupPageStyle = StyleSheet.create({
     width: width * 0.95,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+    paddingLeft: 20,
   },
-  emailContainer: {
-    paddingTop: 30,
-    paddingLeft: 25,
-  },
+  emailContainer: {marginTop: 10},
   emailContainerAlt: {
     paddingTop: 30,
     height: height * 0.05,

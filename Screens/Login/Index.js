@@ -40,7 +40,7 @@ const Index = ({navigation, route}) => {
   const EmailContainer = () => {
     return (
       <View style={Styles.emailContainer}>
-        <Text style={Styles.label}>Email</Text>
+        <Text style={Styles.label}>User Name</Text>
         <TextInput
           placeholder="yourname@gmail.com"
           onChangeText={text => {
@@ -131,76 +131,81 @@ const Index = ({navigation, route}) => {
 
   const onPressNow = () => {
     const userType = route.params.userType;
-    console.log('usertype', userType);
-    if (userType === 'O') {
-      const userName = data.email;
-      const password = data.password;
+    if (data.email.length === 0) {
+      alert('Please Enter User Name');
+    } else if (data.password.length === 0) {
+      alert('Please Enter Password');
+    } else {
+      if (userType === 'O') {
+        const userName = data.email;
+        const password = data.password;
 
-      const user = {
-        userName,
-        password,
-      };
+        const user = {
+          userName,
+          password,
+        };
 
-      CONSTANT.API.post('/carOwner/login', user)
-        .then(res => res.data)
-        .then(data => {
-          if (data) {
-            if (data.code == 0) {
-              storeOwnerData(data.data);
-              if (userType === 'O') {
-                navigation.replace('DashBoard');
+        CONSTANT.API.post('/carOwner/login', user)
+          .then(res => res.data)
+          .then(data => {
+            if (data) {
+              if (data.code == 0) {
+                storeOwnerData(data.data);
+                if (userType === 'O') {
+                  navigation.replace('DashBoard');
+                }
+                alert(data.message);
+              } else if (data.code == -1) {
+                alert('Car Owner  account not found');
+              } else if (data.code == -2) {
+                alert('Car Owner  account has been blocked');
+              } else if (data.code == -3) {
+                alert('Car Owner account yet needs an appproval of Admin');
+              } else if (data.code == 1) {
+                alert('Wrong Password');
               }
-              alert(data.message);
-            } else if (data.code == -1) {
-              alert('Car Owner  account not found');
-            } else if (data.code == -2) {
-              alert('Car Owner  account has been blocked');
-            } else if (data.code == -3) {
-              alert('Car Owner account yet needs an appproval of Admin');
-            } else if (data.code == 1) {
-              alert('Wrong Password');
             }
-          }
-        })
-        .catch(err => {
-          alert('incorrect details fro signin.Check your details again');
-          console.log(err);
-        });
-    }
-    if (userType === 'D') {
-      const userName = data.email;
-      const password = data.password;
+          })
+          .catch(err => {
+            alert('incorrect details fro signin.Check your details again');
+            console.log(err);
+          });
+      }
+      if (userType === 'D') {
+        const userName = data.email;
+        const password = data.password;
 
-      const user = {
-        userName,
-        password,
-      };
+        const user = {
+          userName,
+          password,
+        };
 
-      CONSTANT.API.post('/driver/login', user)
-        .then(res => res.data)
-        .then(data => {
-          if (data) {
-            if (data.code == 0) {
-              storeDriverData(data.data);
-              if (userType === 'D') {
-                navigation.replace('DriverDashboard');
+        CONSTANT.API.post('/driver/login', user)
+          .then(res => res.data)
+          .then(data => {
+            if (data) {
+              if (data.code == 0) {
+                storeDriverData(data.data);
+                if (userType === 'D') {
+                  navigation.replace('DriverDashboard');
+                }
+                alert(data.message);
+              } else if (data.code == -1) {
+                alert('Car Driver  account not found');
+              } else if (data.code == -2) {
+                alert('Car Driver  account has been blocked');
+              } else if (data.code == -3) {
+                alert('Car Driver account yet needs an appproval of Admin');
+              } else if (data.code == 1) {
+                alert('Wrong Password');
               }
-              alert(data.message);
-            } else if (data.code == -1) {
-              alert('Car Driver  account not found');
-            } else if (data.code == -2) {
-              alert('Car Driver  account has been blocked');
-            } else if (data.code == -3) {
-              alert('Car Driver account yet needs an appproval of Admin');
-            } else if (data.code == 1) {
-              alert('Wrong Password');
             }
-          }
-        })
-        .catch(err => {
-          alert('incorrect details fro signin.Check your details again');
-          console.log(err);
-        });
+          })
+          .catch(err => {
+            alert('incorrect details fro signin.Check your details again');
+            console.log(err);
+          });
+      }
     }
   };
 

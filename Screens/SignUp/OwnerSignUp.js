@@ -175,7 +175,7 @@ const OwnerSignUp = ({navigation}) => {
       <View style={styles.emailContainer}>
         <Text style={styles.label}>Car Title</Text>
         <TextInput
-          placeholder="JohnySmith"
+          placeholder="Car Name"
           clearTextOnFocus={false}
           onChangeText={text => setData({...data, carTitle: text})}
           value={data.carTitle}
@@ -249,26 +249,74 @@ const OwnerSignUp = ({navigation}) => {
       carRegCity,
       carTitle,
     };
-    console.log(user);
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
-    };
-    CONSTANT.API.post('/carOwner/signup', user)
-      .then(res => res.data)
-      .then(data => {
-        if (data.code == 0) {
-          //navigation.goBack(null);
-          alert('Signed In Successfully');
-        } else if (data.code == 1) {
-          alert('UserName is already Registered');
-        }
-      })
-      .catch(err => {
-        alert('incorrect details fro signin.Check your details again');
-        console.log(err);
-      });
+    if (Object.values(firstName).length === 0 && user.constructor === Object) {
+      alert('Please Enter First Name');
+    } else if (
+      Object.values(lastName).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter last Name');
+    } else if (
+      Object.values(userName).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter User Name');
+    } else if (
+      Object.values(contactNumber).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter Contact Number');
+    } else if (
+      Object.values(city).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter City');
+    } else if (
+      Object.values(carTitle).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter Car Name ');
+    } else if (
+      Object.values(carModel).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter Car Model');
+    } else if (
+      Object.values(address).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter Address');
+    } else if (
+      Object.values(email).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter Email');
+    } else if (
+      Object.values(password).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter Password');
+    } else if (
+      Object.values(carRegCity).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter Car Registration City');
+    } else {
+      CONSTANT.API.post('/carOwner/signup', user)
+        .then(res => res.data)
+        .then(data => {
+          if (data.code == 0) {
+            navigation.goBack(null);
+            alert('Signed Up Successfully');
+          } else if (data.code == 1) {
+            alert('UserName is already Registered');
+          }
+        })
+        .catch(err => {
+          alert('incorrect details fro signin.Check your details again');
+          console.log(err);
+        });
+    }
   };
 
   const renderCheckbox = () => {
@@ -315,6 +363,24 @@ const OwnerSignUp = ({navigation}) => {
             animation="fadeInUpBig"
             style={styles.loginContainer}>
             <ScrollView>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 18,
+
+                  marginTop: 20,
+                }}>
+                Welcome
+              </Text>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: 'rgba(0,0,0,0.3)',
+                  marginTop: 10,
+                  fontSize: 14,
+                }}>
+                Sign Up to continue
+              </Text>
               {renderFirstNameContainer()}
               {renderLastNameContainer()}
               {renderUserNameContainer()}

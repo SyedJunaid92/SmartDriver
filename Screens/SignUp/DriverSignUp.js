@@ -178,7 +178,7 @@ const DriverSignUp = ({navigation}) => {
       <View style={styles.emailContainer}>
         <Text style={styles.label}>CNIC</Text>
         <TextInput
-          placeholder="JohnySmith"
+          placeholder="CNIC"
           clearTextOnFocus={false}
           onChangeText={text => setData({...data, cnic: text})}
           value={data.cnic}
@@ -228,6 +228,7 @@ const DriverSignUp = ({navigation}) => {
       </View>
     );
   };
+
   const onPressSignup = () => {
     const firstName = data.firstName;
     const lastName = data.lastName;
@@ -253,20 +254,69 @@ const DriverSignUp = ({navigation}) => {
       password,
     };
 
-    CONSTANT.API.post('/driver/signup', user)
-      .then(res => res.data)
-      .then(data => {
-        if (data.code == 0) {
-          navigation.goBack();
-          alert('Signed Up Successfully');
-        } else if (data.code == 1) {
-          alert('UserName is already Registered');
-        }
-      })
-      .catch(err => {
-        alert('incorrect details for signUp.Check your details again');
-        console.log(err);
-      });
+    if (Object.values(firstName).length === 0 && user.constructor === Object) {
+      alert('Please Enter First Name');
+    } else if (
+      Object.values(lastName).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter last Name');
+    } else if (
+      Object.values(userName).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter User Name');
+    } else if (
+      Object.values(contactNumber).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter Contact Number');
+    } else if (
+      Object.values(city).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter City');
+    } else if (
+      Object.values(cnic).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter CNIC ');
+    } else if (
+      Object.values(licenseNumber).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter License Number');
+    } else if (
+      Object.values(address).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter Address');
+    } else if (
+      Object.values(email).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter Email');
+    } else if (
+      Object.values(password).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter Password');
+    } else {
+      CONSTANT.API.post('/driver/signup', user)
+        .then(res => res.data)
+        .then(data => {
+          if (data.code == 0) {
+            navigation.goBack();
+            alert('Signed Up Successfully');
+          } else if (data.code == 1) {
+            alert('UserName is already Registered');
+          }
+        })
+        .catch(err => {
+          alert('incorrect details for signUp.Check your details again');
+          console.log(err);
+        });
+    }
   };
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
@@ -288,12 +338,13 @@ const DriverSignUp = ({navigation}) => {
                 Welcome
               </Text>
               <Text
-                tyle={{
+                style={{
                   fontWeight: 'bold',
-                  colors: 'rgba(0,0,0,0.1)',
+                  color: 'rgba(0,0,0,0.3)',
                   marginTop: 10,
+                  fontSize: 14,
                 }}>
-                Sign in to continue
+                Sign Up to continue
               </Text>
               {renderFirstNameContainer()}
               {renderLastNameContainer()}
