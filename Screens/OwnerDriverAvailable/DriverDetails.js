@@ -114,9 +114,12 @@ const DriverDetails = ({navigation, route}) => {
     CONSTANT.API.post('/carOwner/createRequest', user)
       .then(res => res.data)
       .then(data => {
+        console.log(data);
         if (data.code == 0) {
           navigation.goBack(null);
           alert(data.message);
+        } else if (data.code == 1) {
+          alert(data.error);
         }
       })
       .catch(err => {
@@ -129,9 +132,14 @@ const DriverDetails = ({navigation, route}) => {
       {renderDriverDetails()}
       {renderBottomButtons()}
       <Overlay
+        containerStyle={{backgroundColor: 'rgba(0,0,0,0.7)'}}
+        childrenWrapperStyle={{
+          borderRadius: 15,
+        }}
         visible={showModal}
         onClose={() => setShowModal(false)}
         closeOnTouchOutside={false}>
+        <Text>Salary Per Day</Text>
         <TextInput
           placeholder="Enter Amount"
           value={amountOffered}
@@ -141,10 +149,10 @@ const DriverDetails = ({navigation, route}) => {
             borderWidth: 1,
             width: '90%',
             marginBottom: 20,
-            marginTop: 20,
           }}
           onChangeText={val => setAmountOffered(val)}
         />
+        <Text style={{marginTop: 10}}>No of Days</Text>
         <TextInput
           placeholder="Enter Day"
           value={jobSpan}
@@ -164,23 +172,57 @@ const DriverDetails = ({navigation, route}) => {
             justifyContent: 'space-between',
             width: '90%',
           }}>
-          <Button
-            title="Cancel"
-            onPress={() => {
-              setShowModal(false);
-              setAmountOffered('');
-              setJobSpan('');
-            }}
-          />
-          <Button
-            title="Confirm"
-            onPress={() => {
-              setShowModal(false);
-              setAmountOffered('');
-              setJobSpan('');
-              onPressHire();
-            }}
-          />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}>
+            <TouchableOpacity
+              style={{backgroundColor: 'red', borderRadius: 10, width: '30%'}}
+              onPress={() => {
+                setShowModal(false);
+                setAmountOffered('');
+                setJobSpan('');
+              }}>
+              <Text
+                style={{
+                  padding: 10,
+                  textAlign: 'center',
+                  alignSelf: 'center',
+                  color: '#fff',
+                }}>
+                Cancel
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{backgroundColor: 'green', borderRadius: 10, width: '30%'}}
+              onPress={() => {
+                if (
+                  amountOffered == undefined ||
+                  amountOffered.length == 0 ||
+                  jobSpan == undefined ||
+                  jobSpan.length == 0
+                ) {
+                  alert('Please Fill Complete Details');
+                } else {
+                  setShowModal(false);
+                  setAmountOffered('');
+                  setJobSpan('');
+                  onPressHire();
+                }
+              }}>
+              <Text
+                style={{
+                  padding: 10,
+                  textAlign: 'center',
+                  alignSelf: 'center',
+                  color: '#fff',
+                }}>
+                Confirm
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Overlay>
     </View>
