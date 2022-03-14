@@ -9,6 +9,7 @@ import {
   Keyboard,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Styles from './Styles';
@@ -42,7 +43,7 @@ const Index = ({navigation, route}) => {
       <View style={Styles.emailContainer}>
         <Text style={Styles.label}>User Name</Text>
         <TextInput
-          placeholder="yourname@gmail.com"
+          placeholder="yourname"
           onChangeText={text => {
             setData({...data, email: text});
             // validateEmail(data.email);
