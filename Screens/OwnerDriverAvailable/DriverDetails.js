@@ -67,12 +67,6 @@ const DriverDetails = ({navigation, route}) => {
               <Text style={styles.skillDesp}>{userObj.email}</Text>
             </View>
           </View>
-          <View style={styles.row2}>
-            <Text style={styles.titleText}>Gender</Text>
-            <View style={{marginLeft: 65}}>
-              <Text style={styles.skillDesp}>Male</Text>
-            </View>
-          </View>
         </View>
       </View>
     );

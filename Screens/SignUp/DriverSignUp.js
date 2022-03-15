@@ -37,6 +37,8 @@ const DriverSignUp = ({navigation}) => {
     city: '',
     cnic: '',
     licenseNumber: '',
+    age: '',
+    expectedSalary: '',
   });
   const renderLogoImage = () => {
     return (
@@ -105,7 +107,10 @@ const DriverSignUp = ({navigation}) => {
           placeholder="Phone Number"
           clearTextOnFocus={false}
           // error={emailError}
-          onChangeText={text => setData({...data, phone: text})}
+          onChangeText={text => {
+            let onlyNumbers = text.replace(/\D/g, '');
+            setData({...data, phone: onlyNumbers});
+          }}
           value={data.phone}
           keyboardType="numeric"
           //onBlur={e => this.validateEmail()}
@@ -180,14 +185,16 @@ const DriverSignUp = ({navigation}) => {
         <TextInput
           placeholder="CNIC"
           clearTextOnFocus={false}
-          onChangeText={text => setData({...data, cnic: text})}
+          onChangeText={text => {
+            let onlyNumbers = text.replace(/\D/g, '');
+            setData({...data, cnic: onlyNumbers});
+          }}
           value={data.cnic}
           //onBlur={e => this.validatePassword()}
         />
       </View>
     );
   };
-
   const renderLicenseContainer = () => {
     return (
       <View style={styles.emailContainer}>
@@ -195,7 +202,10 @@ const DriverSignUp = ({navigation}) => {
         <TextInput
           placeholder="2014"
           clearTextOnFocus={false}
-          onChangeText={text => setData({...data, licenseNumber: text})}
+          onChangeText={text => {
+            let onlyNumbers = text.replace(/\D/g, '');
+            setData({...data, licenseNumber: onlyNumbers});
+          }}
           value={data.licenseNumber}
 
           //onBlur={e => this.validatePassword()}
@@ -203,7 +213,42 @@ const DriverSignUp = ({navigation}) => {
       </View>
     );
   };
+  const renderAgeContainer = () => {
+    return (
+      <View style={styles.emailContainer}>
+        <Text style={styles.label}>Age</Text>
+        <TextInput
+          placeholder="22"
+          clearTextOnFocus={false}
+          onChangeText={text => {
+            let onlyNumbers = text.replace(/\D/g, '');
+            setData({...data, age: onlyNumbers});
+          }}
+          value={data.age}
 
+          //onBlur={e => this.validatePassword()}
+        />
+      </View>
+    );
+  };
+  const renderExpectedSalaryContainer = () => {
+    return (
+      <View style={styles.emailContainer}>
+        <Text style={styles.label}>Expected Salary Per Day</Text>
+        <TextInput
+          placeholder="2000"
+          clearTextOnFocus={false}
+          onChangeText={text => {
+            let onlyNumbers = text.replace(/\D/g, '');
+            setData({...data, expectedSalary: onlyNumbers});
+          }}
+          value={data.expectedSalary}
+
+          //onBlur={e => this.validatePassword()}
+        />
+      </View>
+    );
+  };
   const renderSignupButton = () => {
     return (
       <TouchableOpacity
@@ -240,6 +285,8 @@ const DriverSignUp = ({navigation}) => {
     const address = data.address;
     const email = data.email;
     const password = data.password;
+    const age = data.age;
+    const expectedSalary = data.expectedSalary;
 
     const user = {
       firstName,
@@ -252,6 +299,8 @@ const DriverSignUp = ({navigation}) => {
       address,
       email,
       password,
+      age,
+      expectedSalary,
     };
 
     if (Object.values(firstName).length === 0 && user.constructor === Object) {
@@ -301,6 +350,13 @@ const DriverSignUp = ({navigation}) => {
       user.constructor === Object
     ) {
       alert('Please Enter Password');
+    } else if (Object.values(age).length === 0 && user.constructor === Object) {
+      alert('Please Enter Age');
+    } else if (
+      Object.values(expectedSalary).length === 0 &&
+      user.constructor === Object
+    ) {
+      alert('Please Enter Expected Salary');
     } else {
       CONSTANT.API.post('/driver/signup', user)
         .then(res => res.data)
@@ -349,14 +405,15 @@ const DriverSignUp = ({navigation}) => {
               {renderFirstNameContainer()}
               {renderLastNameContainer()}
               {renderUserNameContainer()}
+              {renderAgeContainer()}
               {EmailContainer()}
               {renderPasswordContainer()}
               {renderPhoneNumberContainer()}
               {renderAddressContainer()}
+              {renderExpectedSalaryContainer()}
               {renderCityContainer()}
               {renderCNICContainer()}
               {renderLicenseContainer()}
-
               {renderSignupButton()}
               {renderText()}
             </ScrollView>

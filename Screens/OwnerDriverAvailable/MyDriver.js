@@ -55,9 +55,13 @@ const MyDriver = ({navigation}) => {
       status,
       id,
     };
-    console.log(action);
+
     CONSTANT.API.post('/carOwner/driverAttendanceAction', action).then(
-      response => console.log(response.data),
+      response => {
+        alert(response.data.message);
+        console.log(response.data);
+        AttendaceReq();
+      },
     );
   };
 
