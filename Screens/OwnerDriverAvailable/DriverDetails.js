@@ -109,6 +109,7 @@ const DriverDetails = ({navigation, route}) => {
       jobSpan,
       amountOffered,
       driverUserName,
+      age: 20,
     };
 
     CONSTANT.API.post('/carOwner/createRequest', user)
