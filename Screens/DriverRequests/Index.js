@@ -43,7 +43,7 @@ const Index = () => {
     CONSTANT.API.post('/driver/requestAction', user).then(response => {
       if (response.data.code == 0) {
         alert(response.data.message);
-        console.log(response.data);
+        getData();
       }
     });
   };

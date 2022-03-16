@@ -90,7 +90,7 @@ const MyDriver = ({navigation}) => {
           padding: 10,
         }}>
         <Image
-          source={require('../../Assets/Images/userIMage.png')}
+          source={require('../../Assets/Images/Profile.jpg')}
           style={styles.imageStyles}
           resizeMode="cover"
         />
@@ -157,9 +157,9 @@ const MyDriver = ({navigation}) => {
             }}>
             <Text
               style={{
-                fontWeight: 'bold',
                 fontSize: 16,
                 textAlign: 'center',
+                fontFamily: 'SpaceGrotesk-Bold',
               }}>
               Attendace Request
             </Text>
@@ -261,6 +261,7 @@ const MyDriver = ({navigation}) => {
                 fontWeight: 'bold',
                 fontSize: 16,
                 textAlign: 'center',
+                fontFamily: 'SpaceGrotesk-Bold',
               }}>
               Attendace History
             </Text>
@@ -287,8 +288,10 @@ const MyDriver = ({navigation}) => {
                     justifyContent: 'space-between',
                     marginBottom: 10,
                   }}>
-                  <Text>Date</Text>
-                  <Text>{new Date(item.createdDate).toDateString()}</Text>
+                  <Text style={{fontFamily: 'SpaceGrotesk-Bold'}}>Date</Text>
+                  <Text style={{fontFamily: 'SpaceGrotesk-Regular'}}>
+                    {new Date(item.createdDate).toDateString()}
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -296,8 +299,12 @@ const MyDriver = ({navigation}) => {
                     justifyContent: 'space-between',
                     marginBottom: 10,
                   }}>
-                  <Text>Fuel Expense</Text>
-                  <Text>{item.fuelExpense}</Text>
+                  <Text style={{fontFamily: 'SpaceGrotesk-Bold'}}>
+                    Fuel Expense
+                  </Text>
+                  <Text style={{fontFamily: 'SpaceGrotesk-Regular'}}>
+                    {item.fuelExpense}
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -305,8 +312,12 @@ const MyDriver = ({navigation}) => {
                     justifyContent: 'space-between',
                     marginBottom: 10,
                   }}>
-                  <Text>maintenance Expense</Text>
-                  <Text>{item.maintenanceExpense}</Text>
+                  <Text style={{fontFamily: 'SpaceGrotesk-Bold'}}>
+                    maintenance Expense
+                  </Text>
+                  <Text style={{fontFamily: 'SpaceGrotesk-Regular'}}>
+                    {item.maintenanceExpense}
+                  </Text>
                 </View>
               </View>
             ))
@@ -328,7 +339,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0,0,0,0.1)',
   },
   ProfileTitleText: {
-    fontWeight: 'bold',
+    fontFamily: 'SpaceGrotesk-Bold',
     fontSize: 16,
     marginBottom: 10,
     alignSelf: 'center',
@@ -339,9 +350,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 16,
     marginBottom: 10,
+    fontFamily: 'SpaceGrotesk-Regular',
   },
   imageStyles: {
-    borderRadius: 50,
+    borderRadius: 10,
     height: 80,
     width: 80,
     alignSelf: 'center',

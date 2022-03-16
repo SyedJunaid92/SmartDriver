@@ -11,6 +11,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as CONSTANT from '../../Constants/Constants';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Colors from '../../Assets/Colors/Colors';
+import Overlay from 'react-native-modal-overlay';
+
 const {width, height} = Dimensions.get('screen');
 
 const MyBooking = () => {
@@ -22,6 +24,10 @@ const MyBooking = () => {
   const [DriverUserName, setDriverUserName] = useState();
   const [HistoryShow, setHistoryShow] = useState();
   const [HistoryData, setHistoryData] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const [fuelExpense, setFuelExpense] = useState(0);
+  const [maintenanceExpense, setMaintenanceExpense] = useState(0);
+
   const getData = async () => {
     let DriverData = await AsyncStorage.getItem('DriverData');
     let parsedDriver = JSON.parse(DriverData);
@@ -61,6 +67,16 @@ const MyBooking = () => {
         alert('Request Sent to Car Owner for mark the attendace');
       } else if (response.data.code == 1) {
         alert('Attendace request already sent to Car Owner');
+      }
+    });
+  };
+  const AddExpense = () => {
+    const user = {maintenanceExpense, fuelExpense};
+    CONSTANT.API.put('/driver/addExpense', user).then(response => {
+      if (response.data.code == 0) {
+        alert('Successfully Added');
+      } else {
+        alert('Something Went Wrong');
       }
     });
   };
@@ -217,10 +233,107 @@ const MyBooking = () => {
                   <Text>maintenance Expense</Text>
                   <Text>{item.maintenanceExpense}</Text>
                 </View>
+
+                <TouchableOpacity
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginBottom: 10,
+                  }}
+                  onPress={() => setShowModal(true)}>
+                  <Text>Add Expense</Text>
+                </TouchableOpacity>
               </View>
             ))
           : null}
       </View>
+      <Overlay
+        containerStyle={{backgroundColor: 'rgba(0,0,0,0.7)'}}
+        childrenWrapperStyle={{
+          borderRadius: 15,
+        }}
+        visible={showModal}
+        onClose={() => setShowModal(false)}
+        closeOnTouchOutside={false}>
+        <Text>Expected Salary</Text>
+        <TextInput
+          placeholder="Enter Maintenance Expense"
+          value={maintenanceExpense}
+          keyboardType="number-pad"
+          style={{
+            borderRadius: 10,
+            borderColor: 'rgba(0,0,0,0.2)',
+            borderWidth: 1,
+            width: '90%',
+            marginBottom: 20,
+          }}
+          onChangeText={val => setMaintenanceExpense(val)}
+        />
+        <Text style={{marginTop: 10}}>Age</Text>
+        <TextInput
+          placeholder="Enter Fuel Expense"
+          value={fuelExpense}
+          keyboardType="number-pad"
+          style={{
+            borderRadius: 10,
+            borderColor: 'rgba(0,0,0,0.2)',
+            borderWidth: 1,
+            width: '90%',
+            marginBottom: 20,
+          }}
+          onChangeText={val => setFuelExpense(val)}
+        />
+
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '90%',
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}>
+            <TouchableOpacity
+              style={{backgroundColor: 'red', borderRadius: 10, width: '30%'}}
+              onPress={() => {
+                setShowModal(false);
+              }}>
+              <Text
+                style={{
+                  padding: 10,
+                  textAlign: 'center',
+                  alignSelf: 'center',
+                  color: '#fff',
+                }}>
+                Cancel
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                backgroundColor: 'green',
+                borderRadius: 10,
+                width: '30%',
+              }}
+              onPress={() => {
+                setShowModal(false);
+                AddExpense();
+              }}>
+              <Text
+                style={{
+                  padding: 10,
+                  textAlign: 'center',
+                  alignSelf: 'center',
+                  color: '#fff',
+                }}>
+                Add
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Overlay>
     </View>
   );
 };

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   Button,
+  StyleSheet,
 } from 'react-native';
 import styles from './DriverDetailsStyles';
 import Colors from '../../Assets/Colors/Colors';
@@ -24,7 +25,10 @@ const DriverDetails = ({navigation, route}) => {
     return (
       <View style={{marginTop: 20}}>
         <View style={styles.imageContainer}>
-          <Image source={require('../../Assets/Images/driverImageAlt.jpeg')} />
+          <Image
+            source={require('../../Assets/Images/Profile.jpg')}
+            style={styles.imageStyles}
+          />
         </View>
         <View
           style={{

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,36 +6,26 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import * as CONSTANT from '../../Constants/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {LineChart} from 'react-native-chart-kit';
-
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const {width, height} = Dimensions.get('screen');
-//My Driver, Attendance Request
-//AvailAble Driver
 const Dashboard = ({navigation}) => {
   const [data, setData] = useState();
-  const Graphdata = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-    datasets: [
-      {
-        data: [20, 45, 28, 80, 99, 43],
-        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-        strokeWidth: 2, // optional
-      },
-    ],
+  const [userName, setUserName] = useState();
+  useEffect(() => {
+    getUserName();
+  }, []);
+  const getUserName = async () => {
+    let OwnerData = await AsyncStorage.getItem('OwnerData');
+    let parsedOwner = JSON.parse(OwnerData);
+    setUserName(parsedOwner.firstName);
   };
-  const chartConfig = {
-    backgroundGradientFrom: '#1E2923',
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: '#08130D',
-    backgroundGradientToOpacity: 0.5,
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    strokeWidth: 2, // optional, default 3
-    barPercentage: 0.5,
-    useShadowColorFromDataset: false, // optional
-  };
+  console.log(userName);
 
   const HireDriverCheck = async () => {
     let OwnerData = await AsyncStorage.getItem('OwnerData');
@@ -45,7 +35,7 @@ const Dashboard = ({navigation}) => {
     CONSTANT.API.get(
       `/carOwner/hiredDriver?carOwnerUserName=${carOwnerUserName}`,
     ).then(response => {
-      console.log(response.data);
+      console.log('Hire API' + response.data);
       if (response.data.code == 0) {
         navigation.navigate('MyDriver');
       } else if (response.data.code == 1) {
@@ -69,104 +59,255 @@ const Dashboard = ({navigation}) => {
   };
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
-      <TouchableOpacity onPress={() => navigation.navigate('OwnerProfile')}>
-        <Image
-          source={require('../../Assets/Images/userIMage.png')}
-          style={styles.imageStyles}
-          resizeMode="cover"
-        />
-      </TouchableOpacity>
-      <Text
+      <StatusBar backgroundColor="#2e2e2e" />
+      <View
         style={{
-          fontSize: 22,
-          fontWeight: 'bold',
-          textAlign: 'center',
-          color: '#000',
+          height: 60,
+          backgroundColor: '#2e2e2e',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}>
-        DashBoard
-      </Text>
+        <Text
+          style={{
+            color: '#fff',
+            marginLeft: 20,
+            fontSize: 18,
+            fontFamily: 'SpaceGrotesk-Medium',
+          }}>
+          Welcome {userName}
+        </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('OwnerProfile')}>
+          <Image
+            source={require('../../Assets/Images/Profile.jpg')}
+            style={styles.imageStyles}
+            resizeMode="cover"
+          />
+        </TouchableOpacity>
+      </View>
+      <Image
+        source={require('../../Assets/Images/smartlogo.png')}
+        style={{alignSelf: 'center', height: 120, marginTop: 20, width: 250}}
+        resizeMode="cover"
+      />
+
       <View
         style={{
           width: width * 0.9,
           alignSelf: 'center',
           borderWidth: 1,
           borderRadius: 10,
-          marginTop: 10,
-          height: height * 0.5,
+          marginTop: 30,
+          backgroundColor: '#808080',
+          paddingBottom: 20,
+          paddingTop: 20,
         }}>
-        <LineChart
-          style={{alignSelf: 'center', marginTop: 20, marginBottom: 10}}
-          data={Graphdata}
-          width={width * 0.9}
-          height={170}
-          chartConfig={chartConfig}
-          withVerticalLabels={false}
-          withHorizontalLabels={false}
-          bezier
-        />
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-evenly',
             alignContent: 'center',
             alignItems: 'center',
-          }}>
-          <TouchableOpacity
-            onPress={() => DriverCheck()}
-            style={{
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}>
-            <Image
-              source={require('../../Assets/Images/findDriver.jpeg')}
-              style={{width: 70, height: 70}}
-            />
-            <Text>Available Driver</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => HireDriverCheck()}
-            style={{
-              flexDirection: 'column',
 
+            borderRadius: 10,
+            marginTop: 10,
+            marginBottom: 10,
+          }}>
+          <View
+            onStartShouldSetResponder={() => DriverCheck()}
+            style={{
+              flex: 1,
               alignItems: 'center',
+              backgroundColor: '#f5d21f',
+              borderRadius: 10,
+              elevation: 20,
+              marginRight: 10,
+              marginLeft: 10,
+            }}>
+            <FontAwesome
+              name="drivers-license"
+              size={90}
+              color="#000"
+              style={{marginTop: 10}}
+            />
+            <Text
+              style={{
+                fontWeight: '500',
+                color: '#fff',
+                fontSize: 18,
+                marginBottom: 5,
+                fontFamily: 'SpaceGrotesk-Bold',
+              }}>
+              Available Drivers
+            </Text>
+          </View>
+
+          <View
+            onStartShouldSetResponder={() => HireDriverCheck()}
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              backgroundColor: '#f5d21f',
+              borderRadius: 10,
+              elevation: 20,
+              marginLeft: 10,
+              marginRight: 10,
             }}>
             <Image
               source={require('../../Assets/Images/DriverIcon.png')}
-              style={{width: 70, height: 70}}
+              style={{
+                height: 90,
+                marginTop: 10,
+              }}
+              resizeMode="contain"
             />
-            <Text>My Driver</Text>
-          </TouchableOpacity>
+            <Text
+              style={{
+                fontWeight: '500',
+                color: '#fff',
+                fontSize: 18,
+                marginBottom: 5,
+                fontFamily: 'SpaceGrotesk-Bold',
+              }}>
+              My Driver
+            </Text>
+          </View>
         </View>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-evenly',
+            alignContent: 'center',
+            alignItems: 'center',
+
+            borderRadius: 10,
             marginTop: 20,
+            marginBottom: 10,
           }}>
-          <TouchableOpacity
+          <View
+            onStartShouldSetResponder={() => alert('Coming Soon')}
             style={{
-              flexDirection: 'column',
-
+              flex: 1,
               alignItems: 'center',
+              backgroundColor: '#f5d21f',
+              borderRadius: 10,
+              elevation: 20,
+              marginRight: 10,
+              marginLeft: 10,
             }}>
-            <Image
-              source={require('../../Assets/Images/car_Repair.png')}
-              style={{width: 70, height: 70}}
+            <FontAwesome
+              name="video-camera"
+              size={90}
+              color="#000"
+              style={{marginTop: 10}}
             />
-            <Text>Reapir</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+            <Text
+              style={{
+                fontWeight: '500',
+                color: '#fff',
+                fontSize: 18,
+                marginBottom: 5,
+                fontFamily: 'SpaceGrotesk-Bold',
+              }}>
+              Live Surveillanice
+            </Text>
+          </View>
+
+          <View
+            onStartShouldSetResponder={() => alert('Coming Soon')}
             style={{
-              flexDirection: 'column',
-
+              flex: 1,
               alignItems: 'center',
+              backgroundColor: '#f5d21f',
+              borderRadius: 10,
+              elevation: 20,
+              marginLeft: 10,
+              marginRight: 10,
             }}>
-            <Image
-              source={require('../../Assets/Images/help.png')}
-              style={{width: 70, height: 70}}
+            <FontAwesome5
+              name="map-marker-alt"
+              color={'#000'}
+              size={90}
+              style={{marginTop: 10}}
             />
-            <Text>Need Help</Text>
-          </TouchableOpacity>
+            <Text
+              style={{
+                fontWeight: '500',
+                color: '#fff',
+                fontSize: 18,
+                marginBottom: 5,
+                fontFamily: 'SpaceGrotesk-Bold',
+              }}>
+              Track Car
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            alignContent: 'center',
+            alignItems: 'center',
+
+            borderRadius: 10,
+            marginTop: 20,
+            marginBottom: 10,
+          }}>
+          <View
+            onStartShouldSetResponder={() => alert('Coming Soon')}
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              backgroundColor: '#f5d21f',
+              borderRadius: 10,
+              elevation: 20,
+              marginRight: 10,
+              marginLeft: 10,
+            }}>
+            <FontAwesome5
+              name="money-check-alt"
+              color={'#000'}
+              size={90}
+              style={{marginTop: 10}}
+            />
+            <Text
+              style={{
+                color: '#fff',
+                fontSize: 18,
+                marginBottom: 5,
+                fontFamily: 'SpaceGrotesk-Bold',
+              }}>
+              Car Expenses
+            </Text>
+          </View>
+
+          <View
+            onStartShouldSetResponder={() => alert('Coming Soon')}
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              backgroundColor: '#f5d21f',
+              borderRadius: 10,
+              elevation: 20,
+              marginLeft: 10,
+              marginRight: 10,
+            }}>
+            <MaterialIcons
+              name="live-help"
+              color={'#000'}
+              size={90}
+              style={{marginTop: 10}}
+            />
+            <Text
+              style={{
+                color: '#fff',
+                fontSize: 18,
+                marginBottom: 5,
+                fontFamily: 'SpaceGrotesk-Bold',
+              }}>
+              Help
+            </Text>
+          </View>
         </View>
       </View>
     </View>
@@ -176,11 +317,11 @@ const Dashboard = ({navigation}) => {
 export default Dashboard;
 const styles = StyleSheet.create({
   imageStyles: {
-    borderRadius: 60,
-    height: 100,
-    width: 100,
+    borderRadius: 10,
+    height: 50,
+    width: 50,
     marginLeft: 10,
     alignSelf: 'center',
-    marginTop: 20,
+    marginRight: 20,
   },
 });

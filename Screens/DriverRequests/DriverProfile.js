@@ -47,7 +47,7 @@ const DriverProfile = () => {
           backgroundColor: Colors.primary,
         }}>
         <Image
-          source={require('../../Assets/Images/userIMage.png')}
+          source={require('../../Assets/Images/Profile.jpg')}
           style={styles.imageStyles}
           resizeMode="contain"
         />

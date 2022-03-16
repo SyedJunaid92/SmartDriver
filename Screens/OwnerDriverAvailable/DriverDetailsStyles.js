@@ -72,6 +72,14 @@ const DriverDetailsPageStyle = StyleSheet.create({
     fontSize: 16,
     color: colors.white,
   },
+  imageStyles: {
+    borderRadius: 20,
+    height: 250,
+    width: 250,
+
+    alignSelf: 'center',
+    marginRight: 10,
+  },
 });
 
 export default DriverDetailsPageStyle;

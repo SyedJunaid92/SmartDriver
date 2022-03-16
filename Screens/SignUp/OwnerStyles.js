@@ -69,7 +69,7 @@ const SignupPageStyle = StyleSheet.create({
     height: height * 0.065,
     width: width * 0.86,
     justifyContent: 'center',
-    borderRadius: 40,
+    borderRadius: 10,
     alignSelf: 'center',
     marginTop: 30,
     marginBottom: 20,
@@ -79,7 +79,7 @@ const SignupPageStyle = StyleSheet.create({
     height: height * 0.065,
     width: width * 0.86,
     justifyContent: 'center',
-    borderRadius: 40,
+    borderRadius: 10,
     opacity: 0.5,
   },
 });

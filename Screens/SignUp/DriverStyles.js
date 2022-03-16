@@ -68,7 +68,7 @@ const SignupPageStyle = StyleSheet.create({
     height: height * 0.065,
     width: width * 0.86,
     justifyContent: 'center',
-    borderRadius: 40,
+    borderRadius: 10,
     marginTop: 30,
   },
   loginButtonWithOpacity: {
@@ -76,7 +76,7 @@ const SignupPageStyle = StyleSheet.create({
     height: height * 0.065,
     width: width * 0.86,
     justifyContent: 'center',
-    borderRadius: 40,
+    borderRadius: 10,
     opacity: 0.5,
   },
   radioConatainer: {

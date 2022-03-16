@@ -79,7 +79,7 @@ const LoginPageStyle = StyleSheet.create({
     height: height * 0.065,
     width: width * 0.86,
     justifyContent: 'center',
-    borderRadius: 40,
+    borderRadius: 10,
   },
   buttonContainerAlt: {
     backgroundColor: colors.primary,
@@ -88,7 +88,7 @@ const LoginPageStyle = StyleSheet.create({
     height: height * 0.065,
     width: width * 0.86,
     justifyContent: 'center',
-    borderRadius: 40,
+    borderRadius: 10,
     opacity: 0.4,
   },
 });

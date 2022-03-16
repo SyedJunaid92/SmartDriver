@@ -12,13 +12,14 @@ const dashboardScreenStyles = StyleSheet.create({
     borderRadius: 10,
   },
   searchFiled: {
-    width: width * 0.9,
+    width: width * 0.8,
     alignSelf: 'center',
     height: height * 0.06,
     borderWidth: 1,
     borderColor: colors.lightPurple,
     borderRadius: 15,
     paddingLeft: 20,
+    marginRight: 10,
   },
   row1: {
     flexDirection: 'row',
@@ -70,6 +71,10 @@ const dashboardScreenStyles = StyleSheet.create({
   },
   searchView: {
     marginTop: 10,
+    flexDirection: 'row',
+    width: width * 0.9,
+    alignSelf: 'center',
+    alignItems: 'center',
   },
 });
 
