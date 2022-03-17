@@ -17,7 +17,11 @@ const Index = ({navigation}) => {
       const user = {age, expectedSalary, city};
       CONSTANT.API.post('/carOwner/searchFilter', user).then(response => {
         if (response.data.code == 0) {
-          setData(response.data.data);
+          if (response.data.data.length == 0) {
+            alert('No record Found');
+          } else {
+            setData(response.data.data);
+          }
         } else {
           alert('SOmething Went Wrong');
         }
@@ -28,7 +32,14 @@ const Index = ({navigation}) => {
       CONSTANT.API.post('/carOwner/searchFilter', user).then(response => {
         console.log(response.data);
         if (response.data.code == 0) {
-          setData(response.data.data);
+          if (response.data.data.length == 0) {
+            alert('No record Found');
+            setAge('');
+            setCity('');
+            setExpectedSalary('');
+          } else {
+            setData(response.data.data);
+          }
         } else {
           alert('SOmething Went Wrong');
         }
@@ -37,7 +48,14 @@ const Index = ({navigation}) => {
       const user = {age};
       CONSTANT.API.post('/carOwner/searchFilter', user).then(response => {
         if (response.data.code == 0) {
-          setData(response.data.data);
+          if (response.data.data.length == 0) {
+            alert('No record Found');
+            setAge('');
+            setCity('');
+            setExpectedSalary('');
+          } else {
+            setData(response.data.data);
+          }
         } else {
           alert('SOmething Went Wrong');
         }
@@ -46,7 +64,14 @@ const Index = ({navigation}) => {
       const user = {expectedSalary};
       CONSTANT.API.post('/carOwner/searchFilter', user).then(response => {
         if (response.data.code == 0) {
-          setData(response.data.data);
+          if (response.data.data.length == 0) {
+            alert('No record Found');
+            setAge('');
+            setCity('');
+            setExpectedSalary('');
+          } else {
+            setData(response.data.data);
+          }
         } else {
           alert('SOmething Went Wrong');
         }
@@ -55,7 +80,14 @@ const Index = ({navigation}) => {
       const user = {age, city};
       CONSTANT.API.post('/carOwner/searchFilter', user).then(response => {
         if (response.data.code == 0) {
-          setData(response.data.data);
+          if (response.data.data.length == 0) {
+            alert('No record Found');
+            setAge('');
+            setCity('');
+            setExpectedSalary('');
+          } else {
+            setData(response.data.data);
+          }
         } else {
           alert('SOmething Went Wrong');
         }
@@ -64,7 +96,14 @@ const Index = ({navigation}) => {
       const user = {expectedSalary, city};
       CONSTANT.API.post('/carOwner/searchFilter', user).then(response => {
         if (response.data.code == 0) {
-          setData(response.data.data);
+          if (response.data.data.length == 0) {
+            alert('No record Found');
+            setAge('');
+            setCity('');
+            setExpectedSalary('');
+          } else {
+            setData(response.data.data);
+          }
         } else {
           alert('SOmething Went Wrong');
         }
@@ -73,7 +112,14 @@ const Index = ({navigation}) => {
       const user = {age, expectedSalary};
       CONSTANT.API.post('/carOwner/searchFilter', user).then(response => {
         if (response.data.code == 0) {
-          setData(response.data.data);
+          if (response.data.data.length == 0) {
+            alert('No record Found');
+            setAge('');
+            setCity('');
+            setExpectedSalary('');
+          } else {
+            setData(response.data.data);
+          }
         } else {
           alert('SOmething Went Wrong');
         }

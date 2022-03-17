@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as CONSTANT from '../../Constants/Constants';
@@ -49,7 +50,11 @@ const MyBooking = () => {
       `/driver/driverAttendanceHistory?reqId=${data.data.reqId}`,
     ).then(response => {
       if (response.data.code == 0) {
-        setHistoryData(response.data.data);
+        if (response.data.data.length == 0) {
+          alert('No Record Found');
+        } else {
+          setHistoryData(response.data.data);
+        }
       } else {
         alert('Somethinh Went Wrong');
       }

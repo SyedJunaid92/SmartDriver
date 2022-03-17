@@ -19,16 +19,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const {width, height} = Dimensions.get('screen');
 //My Driver, Attendance Request
 //AvailAble Driver
-const DashboardDriver = ({navigation}) => {
+const DashboardDriver = ({navigation, route}) => {
   const [userName, setUserName] = useState();
-  useEffect(() => {
-    getUserName();
-  }, []);
-  const getUserName = async () => {
-    let OwnerData = await AsyncStorage.getItem('OwnerData');
-    let parsedOwner = JSON.parse(OwnerData);
-    setUserName(parsedOwner.firstName);
-  };
+
   const HireDriverCheck = async () => {
     let DriverData = await AsyncStorage.getItem('DriverData');
     let parsedDriver = JSON.parse(DriverData);
@@ -83,7 +76,7 @@ const DashboardDriver = ({navigation}) => {
             fontSize: 18,
             fontFamily: 'SpaceGrotesk-Medium',
           }}>
-          Welcome {userName}
+          Welcome{route.params.firstName}
         </Text>
         <TouchableOpacity onPress={() => navigation.navigate('DriverProfile')}>
           <Image
@@ -121,7 +114,6 @@ const DashboardDriver = ({navigation}) => {
             marginBottom: 10,
           }}>
           <View
-            onStartShouldSetResponder={() => mybooking()}
             style={{
               flex: 1,
               alignItems: 'center',
@@ -131,26 +123,29 @@ const DashboardDriver = ({navigation}) => {
               marginRight: 10,
               marginLeft: 10,
             }}>
-            <Ionicicons
-              name="ios-car-sport-sharp"
-              size={85}
-              color="#000"
-              style={{marginTop: 10}}
-            />
-            <Text
-              style={{
-                fontWeight: '500',
-                color: '#fff',
-                fontSize: 18,
-                marginBottom: 5,
-                fontFamily: 'SpaceGrotesk-Bold',
-              }}>
-              My Booking
-            </Text>
+            <TouchableOpacity
+              style={{alignItems: 'center'}}
+              onPress={() => mybooking()}>
+              <Ionicicons
+                name="ios-car-sport-sharp"
+                size={85}
+                color="#000"
+                style={{marginTop: 10}}
+              />
+              <Text
+                style={{
+                  fontWeight: '500',
+                  color: '#fff',
+                  fontSize: 18,
+                  marginBottom: 5,
+                  fontFamily: 'SpaceGrotesk-Bold',
+                }}>
+                My Booking
+              </Text>
+            </TouchableOpacity>
           </View>
 
           <View
-            onStartShouldSetResponder={() => HireDriverCheck()}
             style={{
               flex: 1,
               alignItems: 'center',
@@ -160,22 +155,26 @@ const DashboardDriver = ({navigation}) => {
               marginLeft: 10,
               marginRight: 10,
             }}>
-            <FontAwesome5
-              name="user-friends"
-              size={85}
-              color={'#000'}
-              style={{marginTop: 10}}
-            />
-            <Text
-              style={{
-                fontWeight: '500',
-                color: '#fff',
-                fontSize: 18,
-                marginBottom: 5,
-                fontFamily: 'SpaceGrotesk-Bold',
-              }}>
-              Requests
-            </Text>
+            <TouchableOpacity
+              style={{alignItems: 'center'}}
+              onPress={() => HireDriverCheck()}>
+              <FontAwesome5
+                name="user-friends"
+                size={85}
+                color={'#000'}
+                style={{marginTop: 10}}
+              />
+              <Text
+                style={{
+                  fontWeight: '500',
+                  color: '#fff',
+                  fontSize: 18,
+                  marginBottom: 5,
+                  fontFamily: 'SpaceGrotesk-Bold',
+                }}>
+                Requests
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
         <View

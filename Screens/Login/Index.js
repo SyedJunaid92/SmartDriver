@@ -153,7 +153,9 @@ const Index = ({navigation, route}) => {
               if (data.code == 0) {
                 storeOwnerData(data.data);
                 if (userType === 'O') {
-                  navigation.replace('DashBoard');
+                  navigation.replace('DashBoard', {
+                    firstName: data.data.firstName,
+                  });
                 }
                 alert(data.message);
               } else if (data.code == -1) {
@@ -188,7 +190,9 @@ const Index = ({navigation, route}) => {
               if (data.code == 0) {
                 storeDriverData(data.data);
                 if (userType === 'D') {
-                  navigation.replace('DriverDashboard');
+                  navigation.replace('DriverDashboard', {
+                    firstName: data.data.firstName,
+                  });
                 }
                 alert(data.message);
               } else if (data.code == -1) {

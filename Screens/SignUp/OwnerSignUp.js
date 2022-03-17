@@ -224,6 +224,9 @@ const OwnerSignUp = ({navigation}) => {
   };
 
   const onPressNow = () => {
+    const regex =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
     const firstName = data.firstName;
     const lastName = data.lastName;
     const userName = data.username;
@@ -301,6 +304,8 @@ const OwnerSignUp = ({navigation}) => {
       user.constructor === Object
     ) {
       alert('Please Enter Car Registration City');
+    } else if (regex.test(email) == false) {
+      alert('Please Enter Correct Email');
     } else {
       CONSTANT.API.post('/carOwner/signup', user)
         .then(res => res.data)

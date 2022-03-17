@@ -14,18 +14,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const {width, height} = Dimensions.get('screen');
-const Dashboard = ({navigation}) => {
+const Dashboard = ({navigation, route}) => {
   const [data, setData] = useState();
-  const [userName, setUserName] = useState();
-  useEffect(() => {
-    getUserName();
-  }, []);
-  const getUserName = async () => {
-    let OwnerData = await AsyncStorage.getItem('OwnerData');
-    let parsedOwner = JSON.parse(OwnerData);
-    setUserName(parsedOwner.firstName);
-  };
-  console.log(userName);
 
   const HireDriverCheck = async () => {
     let OwnerData = await AsyncStorage.getItem('OwnerData');
@@ -35,7 +25,6 @@ const Dashboard = ({navigation}) => {
     CONSTANT.API.get(
       `/carOwner/hiredDriver?carOwnerUserName=${carOwnerUserName}`,
     ).then(response => {
-      console.log('Hire API' + response.data);
       if (response.data.code == 0) {
         navigation.navigate('MyDriver');
       } else if (response.data.code == 1) {
@@ -75,7 +64,7 @@ const Dashboard = ({navigation}) => {
             fontSize: 18,
             fontFamily: 'SpaceGrotesk-Medium',
           }}>
-          Welcome {userName}
+          Welcome {route.params.firstName}
         </Text>
         <TouchableOpacity onPress={() => navigation.navigate('OwnerProfile')}>
           <Image
@@ -114,7 +103,6 @@ const Dashboard = ({navigation}) => {
             marginBottom: 10,
           }}>
           <View
-            onStartShouldSetResponder={() => DriverCheck()}
             style={{
               flex: 1,
               alignItems: 'center',
@@ -124,26 +112,29 @@ const Dashboard = ({navigation}) => {
               marginRight: 10,
               marginLeft: 10,
             }}>
-            <FontAwesome
-              name="drivers-license"
-              size={90}
-              color="#000"
-              style={{marginTop: 10}}
-            />
-            <Text
-              style={{
-                fontWeight: '500',
-                color: '#fff',
-                fontSize: 18,
-                marginBottom: 5,
-                fontFamily: 'SpaceGrotesk-Bold',
-              }}>
-              Available Drivers
-            </Text>
+            <TouchableOpacity
+              style={{alignItems: 'center'}}
+              onPress={() => DriverCheck()}>
+              <FontAwesome
+                name="drivers-license"
+                size={90}
+                color="#000"
+                style={{marginTop: 10}}
+              />
+              <Text
+                style={{
+                  fontWeight: '500',
+                  color: '#fff',
+                  fontSize: 18,
+                  marginBottom: 5,
+                  fontFamily: 'SpaceGrotesk-Bold',
+                }}>
+                Available Drivers
+              </Text>
+            </TouchableOpacity>
           </View>
 
           <View
-            onStartShouldSetResponder={() => HireDriverCheck()}
             style={{
               flex: 1,
               alignItems: 'center',
@@ -153,24 +144,29 @@ const Dashboard = ({navigation}) => {
               marginLeft: 10,
               marginRight: 10,
             }}>
-            <Image
-              source={require('../../Assets/Images/DriverIcon.png')}
-              style={{
-                height: 90,
-                marginTop: 10,
-              }}
-              resizeMode="contain"
-            />
-            <Text
-              style={{
-                fontWeight: '500',
-                color: '#fff',
-                fontSize: 18,
-                marginBottom: 5,
-                fontFamily: 'SpaceGrotesk-Bold',
-              }}>
-              My Driver
-            </Text>
+            <TouchableOpacity
+              style={{alignItems: 'center'}}
+              onPress={() => HireDriverCheck()}>
+              <Image
+                source={require('../../Assets/Images/DriverIcon.png')}
+                style={{
+                  height: 90,
+                  width: 100,
+                  marginTop: 10,
+                }}
+                resizeMode="contain"
+              />
+              <Text
+                style={{
+                  fontWeight: '500',
+                  color: '#fff',
+                  fontSize: 18,
+                  marginBottom: 5,
+                  fontFamily: 'SpaceGrotesk-Bold',
+                }}>
+                My Driver
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
         <View
