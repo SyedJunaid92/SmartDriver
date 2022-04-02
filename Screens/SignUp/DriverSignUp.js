@@ -24,6 +24,7 @@ import * as CONSTANT from '../../Constants/Constants';
 import * as Animatable from 'react-native-animatable';
 
 // import Icon from 'react-native-vector-icons/FontAwesome';
+const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0;
 
 const DriverSignUp = ({navigation}) => {
   const [data, setData] = useState({
@@ -40,6 +41,8 @@ const DriverSignUp = ({navigation}) => {
     age: '',
     expectedSalary: '',
   });
+  const [ProgressShow, setProgressShow] = useState(false);
+
   const renderLogoImage = () => {
     return (
       <View style={styles.imageContainer}>
@@ -363,9 +366,13 @@ const DriverSignUp = ({navigation}) => {
     } else if (regex.test(email) == false) {
       alert('Please Enter Correct Email');
     } else {
+      setProgressShow(true);
+
       CONSTANT.API.post('/driver/signup', user)
         .then(res => res.data)
         .then(data => {
+          setProgressShow(false);
+
           if (data.code == 0) {
             navigation.goBack();
             alert('Signed Up Successfully');
@@ -374,6 +381,8 @@ const DriverSignUp = ({navigation}) => {
           }
         })
         .catch(err => {
+          setProgressShow(false);
+
           alert('incorrect details for signUp.Check your details again');
           console.log(err);
         });
@@ -382,7 +391,8 @@ const DriverSignUp = ({navigation}) => {
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        behavior="position"
+        keyboardVerticalOffset={keyboardVerticalOffset}>
         {renderLogoImage()}
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <Animatable.View
@@ -419,8 +429,15 @@ const DriverSignUp = ({navigation}) => {
               {renderCityContainer()}
               {renderCNICContainer()}
               {renderLicenseContainer()}
-              {renderSignupButton()}
-              {renderText()}
+              {!ProgressShow && renderSignupButton()}
+              {ProgressShow && (
+                <ActivityIndicator
+                  animating={ProgressShow}
+                  size="large"
+                  color={colors.primary}
+                />
+              )}
+              {!ProgressShow && renderText()}
             </ScrollView>
           </Animatable.View>
         </TouchableWithoutFeedback>

@@ -11,12 +11,13 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as CONSTANT from '../../Constants/Constants';
 import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from '../../Assets/Colors/Colors';
 import Overlay from 'react-native-modal-overlay';
 
 const {width, height} = Dimensions.get('screen');
 
-const MyBooking = () => {
+const MyBooking = ({navigation}) => {
   useEffect(() => {
     getData();
   }, [data]);
@@ -26,8 +27,9 @@ const MyBooking = () => {
   const [HistoryShow, setHistoryShow] = useState();
   const [HistoryData, setHistoryData] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [fuelExpense, setFuelExpense] = useState(0);
-  const [maintenanceExpense, setMaintenanceExpense] = useState(0);
+  const [fuelExpense, setFuelExpense] = useState();
+  const [maintenanceExpense, setMaintenanceExpense] = useState();
+  const [id, setId] = useState('');
 
   const getData = async () => {
     let DriverData = await AsyncStorage.getItem('DriverData');
@@ -37,7 +39,6 @@ const MyBooking = () => {
     CONSTANT.API.get(
       `/driver/hireBy?driverUserName=${parsedDriver.userName}`,
     ).then(response => {
-      console.log(response.data);
       if (response.data.code == 0) {
         setData(response.data);
       } else {
@@ -51,6 +52,7 @@ const MyBooking = () => {
     ).then(response => {
       if (response.data.code == 0) {
         if (response.data.data.length == 0) {
+          setHistoryShow(false);
           alert('No Record Found');
         } else {
           setHistoryData(response.data.data);
@@ -76,14 +78,32 @@ const MyBooking = () => {
     });
   };
   const AddExpense = () => {
-    const user = {maintenanceExpense, fuelExpense};
+    const user = {maintenanceExpense, fuelExpense, id};
+    console.log(user);
     CONSTANT.API.put('/driver/addExpense', user).then(response => {
       if (response.data.code == 0) {
         alert('Successfully Added');
+        GetHistoryData();
+        setFuelExpense();
+        setMaintenanceExpense();
+        console.log(response.data);
       } else {
         alert('Something Went Wrong');
       }
     });
+  };
+  const CancelBooking = () => {
+    CONSTANT.API.get(`/carOwner/bookingcancel?reqId=${data.data.reqId}`).then(
+      response => {
+        if (response.data.code == 0) {
+          alert('Successfully Cancelled');
+          navigation.goBack();
+        } else {
+          console.log(response.data);
+          alert('Something went wrong. Please Try Again later.....');
+        }
+      },
+    );
   };
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
@@ -146,26 +166,60 @@ const MyBooking = () => {
           </Text>
         </View>
 
-        <TouchableOpacity
-          disabled={data == undefined ? true : false}
-          style={{
-            alignSelf: 'flex-end',
-            backgroundColor: Colors.primary,
-            borderRadius: 10,
-            marginTop: 10,
-            marginBottom: 10,
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-          onPress={() => MarkAttendace()}>
-          <Entypo name="check" size={20} style={{padding: 5}} color="#fff" />
-          <Text
-            style={{fontSize: 16, padding: 10, paddingLeft: 2, color: '#fff'}}>
-            Mark Attendance
-          </Text>
-        </TouchableOpacity>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <TouchableOpacity
+            disabled={data == undefined ? true : false}
+            style={{
+              alignSelf: 'flex-start',
+              backgroundColor: Colors.primary,
+              borderRadius: 10,
+              marginTop: 10,
+              marginBottom: 10,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+            onPress={() => MarkAttendace()}>
+            <Entypo name="check" size={20} style={{padding: 5}} color="#fff" />
+            <Text
+              style={{
+                fontSize: 16,
+                padding: 10,
+                paddingLeft: 2,
+                color: '#fff',
+              }}>
+              Mark Attendance
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            disabled={data == undefined ? true : false}
+            style={{
+              alignSelf: 'flex-end',
+              backgroundColor: Colors.primary,
+              borderRadius: 10,
+              marginTop: 10,
+              marginBottom: 10,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+            onPress={() => CancelBooking()}>
+            <MaterialCommunityIcons
+              name="cancel"
+              size={20}
+              style={{padding: 5}}
+              color="#fff"
+            />
+            <Text
+              style={{
+                fontSize: 16,
+                padding: 10,
+                paddingLeft: 2,
+                color: '#fff',
+              }}>
+              Cancel Booking
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-
       <View
         style={{
           marginTop: 30,
@@ -193,12 +247,14 @@ const MyBooking = () => {
                 fontWeight: 'bold',
                 fontSize: 16,
                 textAlign: 'center',
+                color: '#000',
               }}>
               Attendace History
             </Text>
             <Entypo
               name={HistoryShow ? 'chevron-thin-up' : 'chevron-thin-down'}
               size={20}
+              color={'#000'}
             />
           </View>
         </TouchableOpacity>
@@ -241,12 +297,27 @@ const MyBooking = () => {
 
                 <TouchableOpacity
                   style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
+                    alignSelf: 'center',
+                    backgroundColor: Colors.primary,
+                    borderRadius: 10,
+                    marginTop: 10,
                     marginBottom: 10,
+                    width: width * 0.4,
+                    alignItems: 'center',
+                    padding: 10,
                   }}
-                  onPress={() => setShowModal(true)}>
-                  <Text>Add Expense</Text>
+                  onPress={() => {
+                    setShowModal(true);
+                    setId(item._id);
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      textAlign: 'center',
+                      color: '#fff',
+                    }}>
+                    Add Expense
+                  </Text>
                 </TouchableOpacity>
               </View>
             ))
@@ -260,7 +331,7 @@ const MyBooking = () => {
         visible={showModal}
         onClose={() => setShowModal(false)}
         closeOnTouchOutside={false}>
-        <Text>Expected Salary</Text>
+        <Text>Maintenance Expense</Text>
         <TextInput
           placeholder="Enter Maintenance Expense"
           value={maintenanceExpense}
@@ -274,7 +345,7 @@ const MyBooking = () => {
           }}
           onChangeText={val => setMaintenanceExpense(val)}
         />
-        <Text style={{marginTop: 10}}>Age</Text>
+        <Text style={{marginTop: 10}}>Fuel Expense</Text>
         <TextInput
           placeholder="Enter Fuel Expense"
           value={fuelExpense}
@@ -305,6 +376,8 @@ const MyBooking = () => {
               style={{backgroundColor: 'red', borderRadius: 10, width: '30%'}}
               onPress={() => {
                 setShowModal(false);
+                setMaintenanceExpense();
+                setFuelExpense();
               }}>
               <Text
                 style={{

@@ -13,11 +13,13 @@ import DriverDashboard from '../Screens/DriverRequests/DashbordDriver';
 import MyBooking from '../Screens/DriverRequests/MyBooking';
 import OwnerProfile from '../Screens/OwnerDriverAvailable/Profile';
 import DriverProfile from '../Screens/DriverRequests/DriverProfile';
+import FirstScreen from '../Screens/FirstScreen/Index';
 
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="FirstScreen" component={FirstScreen} />
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="OwnerSignUp" component={OwnerSignUp} />

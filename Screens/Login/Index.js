@@ -29,6 +29,7 @@ const Index = ({navigation, route}) => {
     passwordValidated: true,
   };
   const [data, setData] = useState(init);
+  const [ProgressShow, setProgressShow] = useState(false);
 
   const Logo = () => {
     return (
@@ -137,6 +138,7 @@ const Index = ({navigation, route}) => {
     } else if (data.password.length === 0) {
       alert('Please Enter Password');
     } else {
+      setProgressShow(true);
       if (userType === 'O') {
         const userName = data.email;
         const password = data.password;
@@ -145,11 +147,13 @@ const Index = ({navigation, route}) => {
           userName,
           password,
         };
+        console.log(user);
 
         CONSTANT.API.post('/carOwner/login', user)
           .then(res => res.data)
           .then(data => {
             if (data) {
+              setProgressShow(false);
               if (data.code == 0) {
                 storeOwnerData(data.data);
                 if (userType === 'O') {
@@ -170,7 +174,8 @@ const Index = ({navigation, route}) => {
             }
           })
           .catch(err => {
-            alert('incorrect details fro signin.Check your details again');
+            setProgressShow(false);
+            alert('incorrect details for signin.Check your details again');
             console.log(err);
           });
       }
@@ -187,6 +192,7 @@ const Index = ({navigation, route}) => {
           .then(res => res.data)
           .then(data => {
             if (data) {
+              setProgressShow(false);
               if (data.code == 0) {
                 storeDriverData(data.data);
                 if (userType === 'D') {
@@ -207,7 +213,8 @@ const Index = ({navigation, route}) => {
             }
           })
           .catch(err => {
-            alert('incorrect details fro signin.Check your details again');
+            setProgressShow(false);
+            alert('incorrect details for signin.Check your details again');
             console.log(err);
           });
       }
@@ -286,8 +293,15 @@ const Index = ({navigation, route}) => {
             </Text>
             {EmailContainer()}
             {PasswordContainer()}
-            {LoginButton()}
-            {renderText()}
+            {!ProgressShow && LoginButton()}
+            {ProgressShow && (
+              <ActivityIndicator
+                animating={ProgressShow}
+                size="large"
+                color={colors.primary}
+              />
+            )}
+            {!ProgressShow && renderText()}
           </Animatable.View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>

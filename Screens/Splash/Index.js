@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import logo from '../../Assets/Images/smartlogo.png';
+import * as Animatable from 'react-native-animatable';
+
 import Styles from './Styles';
 
 const Index = ({navigation}) => {
@@ -33,8 +35,10 @@ const Index = ({navigation}) => {
   return (
     <View>
       <Logo />
-      <OwnerButton />
-      <DriverButton />
+      <Animatable.View animation="fadeInUpBig">
+        <OwnerButton />
+        <DriverButton />
+      </Animatable.View>
     </View>
   );
 };

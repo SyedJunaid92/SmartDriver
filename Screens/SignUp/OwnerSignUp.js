@@ -20,6 +20,7 @@ import CheckBox from '@react-native-community/checkbox';
 import colors from '../../Assets/Colors/Colors';
 import * as CONSTANT from '../../Constants/Constants';
 import * as Animatable from 'react-native-animatable';
+const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0;
 
 const OwnerSignUp = ({navigation}) => {
   const [data, setData] = useState({
@@ -35,6 +36,8 @@ const OwnerSignUp = ({navigation}) => {
     carModel: '',
     carRegCity: '',
   });
+  const [ProgressShow, setProgressShow] = useState(false);
+
   const renderLogoImage = () => {
     return (
       <View style={styles.imageContainer}>
@@ -307,9 +310,11 @@ const OwnerSignUp = ({navigation}) => {
     } else if (regex.test(email) == false) {
       alert('Please Enter Correct Email');
     } else {
+      setProgressShow(true);
       CONSTANT.API.post('/carOwner/signup', user)
         .then(res => res.data)
         .then(data => {
+          setProgressShow(false);
           if (data.code == 0) {
             navigation.goBack(null);
             alert('Signed Up Successfully');
@@ -318,7 +323,9 @@ const OwnerSignUp = ({navigation}) => {
           }
         })
         .catch(err => {
-          alert('incorrect details fro signin.Check your details again');
+          setProgressShow(false);
+
+          alert('incorrect details for signin.Check your details again');
           console.log(err);
         });
     }
@@ -361,7 +368,8 @@ const OwnerSignUp = ({navigation}) => {
   return (
     <View>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        behavior="position"
+        keyboardVerticalOffset={keyboardVerticalOffset}>
         {renderLogoImage()}
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <Animatable.View
@@ -397,8 +405,15 @@ const OwnerSignUp = ({navigation}) => {
               {renderCarTitleContainer()}
               {renderCarRegCityContainer()}
               {renderCarModelContainer()}
-              {renderSignupButton()}
-              {renderText()}
+              {!ProgressShow && renderSignupButton()}
+              {ProgressShow && (
+                <ActivityIndicator
+                  animating={ProgressShow}
+                  size="large"
+                  color={colors.primary}
+                />
+              )}
+              {!ProgressShow && renderText()}
             </ScrollView>
           </Animatable.View>
         </TouchableWithoutFeedback>

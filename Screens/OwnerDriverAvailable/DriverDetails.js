@@ -141,6 +141,7 @@ const DriverDetails = ({navigation, route}) => {
         <Text>Salary Per Day</Text>
         <TextInput
           placeholder="Enter Amount"
+          keyboardType="number-pad"
           value={amountOffered}
           style={{
             borderRadius: 10,
@@ -154,6 +155,7 @@ const DriverDetails = ({navigation, route}) => {
         <Text style={{marginTop: 10}}>No of Days</Text>
         <TextInput
           placeholder="Enter Day"
+          keyboardType="number-pad"
           value={jobSpan}
           style={{
             borderRadius: 10,

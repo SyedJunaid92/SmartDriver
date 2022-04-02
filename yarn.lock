@@ -5798,7 +5798,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-"prop-types@^15.5.10", "prop-types@^15.5.7", "prop-types@^15.7.2", "prop-types@^15.8.1":
+"prop-types@^15.5.10", "prop-types@^15.5.7", "prop-types@^15.6.2", "prop-types@^15.7.2", "prop-types@^15.8.1":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -6016,6 +6016,13 @@
   dependencies:
     "prop-types" "^15.7.2"
     "yargs" "^16.1.1"
+
+"react-native-web-swiper@^2.2.3":
+  "integrity" "sha512-wNdTsu96dTbtNSaMly7YtDYj2PDxgSk9pjE84HDRwXyAaqvr/W8bcUvpmxrxxvyQfNZ7Qo19Z0P4aRgSqAoBGQ=="
+  "resolved" "https://registry.npmjs.org/react-native-web-swiper/-/react-native-web-swiper-2.2.3.tgz"
+  "version" "2.2.3"
+  dependencies:
+    "prop-types" "^15.6.2"
 
 "react-native-wifi-reborn@^4.5.0":
   "integrity" "sha512-qfq4bxFfq7Zj2wwLbj+s1Iz9X68CkyuYz/cYmibD3Hq2evXsJHIiP3kEL4M0zHvX76/31snm9Wvclghzdy4wFw=="

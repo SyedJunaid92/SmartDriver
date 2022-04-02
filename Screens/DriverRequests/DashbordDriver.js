@@ -76,7 +76,7 @@ const DashboardDriver = ({navigation, route}) => {
             fontSize: 18,
             fontFamily: 'SpaceGrotesk-Medium',
           }}>
-          Welcome{route.params.firstName}
+          Welcome {route.params.firstName}
         </Text>
         <TouchableOpacity onPress={() => navigation.navigate('DriverProfile')}>
           <Image

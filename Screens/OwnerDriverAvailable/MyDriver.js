@@ -10,7 +10,9 @@ import {
 import * as CONSTANT from '../../Constants/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 const {width, height} = Dimensions.get('screen');
+
 const MyDriver = ({navigation}) => {
   useEffect(() => {
     getData();
@@ -43,7 +45,8 @@ const MyDriver = ({navigation}) => {
       if (response.data.code == 0) {
         setAttendanceData(response.data.data);
       } else if (response.data.code == 1) {
-        setAttendanceShow(!AttendaceShow);
+        setAttendanceData(response.data.data);
+        setAttendanceShow(false);
         alert(response.data.message);
       } else {
         alert('Something went Wrong');
@@ -59,7 +62,7 @@ const MyDriver = ({navigation}) => {
     CONSTANT.API.post('/carOwner/driverAttendanceAction', action).then(
       response => {
         alert(response.data.message);
-        console.log(response.data);
+
         AttendaceReq();
       },
     );
@@ -76,6 +79,19 @@ const MyDriver = ({navigation}) => {
         alert('Somethinh Went Wrong');
       }
     });
+  };
+  const CancelBooking = () => {
+    CONSTANT.API.get(`/carOwner/bookingcancel?reqId=${data.data.reqId}`).then(
+      response => {
+        if (response.data.code == 0) {
+          alert('Successfully Cancelled');
+          navigation.goBack();
+        } else {
+          console.log(response.data);
+          alert('Something went wrong. Please Try Again later.....');
+        }
+      },
+    );
   };
 
   return (
@@ -132,6 +148,34 @@ const MyDriver = ({navigation}) => {
             {data != undefined && data.driverDetails.licenseNumber}
           </Text>
         </View>
+        <TouchableOpacity
+          disabled={data == undefined ? true : false}
+          style={{
+            alignSelf: 'flex-end',
+            backgroundColor: '#FFA500',
+            borderRadius: 10,
+            marginTop: 10,
+            marginBottom: 10,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+          onPress={() => CancelBooking()}>
+          <MaterialCommunityIcons
+            name="cancel"
+            size={20}
+            style={{padding: 5}}
+            color="#fff"
+          />
+          <Text
+            style={{
+              fontSize: 16,
+              padding: 10,
+              paddingLeft: 2,
+              color: '#fff',
+            }}>
+            Cancel Booking
+          </Text>
+        </TouchableOpacity>
       </View>
       <View
         style={{
