@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as CONSTANT from '../../Constants/Constants';
@@ -258,70 +259,72 @@ const MyBooking = ({navigation}) => {
             />
           </View>
         </TouchableOpacity>
-        {HistoryData != undefined && HistoryShow
-          ? HistoryData.map((item, index) => (
+        {HistoryData != undefined && HistoryShow ? (
+          HistoryData.map((item, index) => (
+            <View
+              key={index}
+              style={{
+                borderBottomColor: 'rgba(0,0,0,0.1)',
+                borderBottomWidth: 1,
+                marginTop: 20,
+              }}>
               <View
-                key={index}
                 style={{
-                  borderBottomColor: 'rgba(0,0,0,0.1)',
-                  borderBottomWidth: 1,
-                  marginTop: 20,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginBottom: 10,
                 }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginBottom: 10,
-                  }}>
-                  <Text>Date</Text>
-                  <Text>{new Date(item.createdDate).toDateString()}</Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginBottom: 10,
-                  }}>
-                  <Text>Fuel Expense</Text>
-                  <Text>{item.fuelExpense}</Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginBottom: 10,
-                  }}>
-                  <Text>maintenance Expense</Text>
-                  <Text>{item.maintenanceExpense}</Text>
-                </View>
-
-                <TouchableOpacity
-                  style={{
-                    alignSelf: 'center',
-                    backgroundColor: Colors.primary,
-                    borderRadius: 10,
-                    marginTop: 10,
-                    marginBottom: 10,
-                    width: width * 0.4,
-                    alignItems: 'center',
-                    padding: 10,
-                  }}
-                  onPress={() => {
-                    setShowModal(true);
-                    setId(item._id);
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      textAlign: 'center',
-                      color: '#fff',
-                    }}>
-                    Add Expense
-                  </Text>
-                </TouchableOpacity>
+                <Text>Date</Text>
+                <Text>{new Date(item.createdDate).toDateString()}</Text>
               </View>
-            ))
-          : null}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginBottom: 10,
+                }}>
+                <Text>Fuel Expense</Text>
+                <Text>{item.fuelExpense}</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginBottom: 10,
+                }}>
+                <Text>maintenance Expense</Text>
+                <Text>{item.maintenanceExpense}</Text>
+              </View>
+
+              <TouchableOpacity
+                style={{
+                  alignSelf: 'center',
+                  backgroundColor: Colors.primary,
+                  borderRadius: 10,
+                  marginTop: 10,
+                  marginBottom: 10,
+                  width: width * 0.4,
+                  alignItems: 'center',
+                  padding: 10,
+                }}
+                onPress={() => {
+                  setShowModal(true);
+                  setId(item._id);
+                }}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    textAlign: 'center',
+                    color: '#fff',
+                  }}>
+                  Add Expense
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ))
+        ) : (
+          <ActivityIndicator size="large" color={Colors.primary} />
+        )}
       </View>
       <Overlay
         containerStyle={{backgroundColor: 'rgba(0,0,0,0.7)'}}
