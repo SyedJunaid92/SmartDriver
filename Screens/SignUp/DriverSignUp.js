@@ -78,7 +78,11 @@ const DriverSignUp = ({navigation}) => {
           placeholder="First Name"
           clearTextOnFocus={false}
           // error={emailError}
-          onChangeText={text => setData({...data, firstName: text})}
+          onChangeText={text => {
+            text = text.replace(/[^A-Za-z]/gi, '');
+            setData({...data, firstName: text});
+          }}
+          keyboardType="ascii-capable"
           value={data.firstName}
 
           //onBlur={e => this.validateEmail()}
@@ -94,9 +98,12 @@ const DriverSignUp = ({navigation}) => {
           placeholder="Last Name"
           clearTextOnFocus={false}
           // error={emailError}
-          onChangeText={text => setData({...data, lastName: text})}
+          onChangeText={text => {
+            text = text.replace(/[^A-Za-z]/gi, '');
+            setData({...data, lastName: text});
+          }}
           value={data.lastName}
-          keyboardType="default"
+          keyboardType="ascii-capable"
           //onBlur={e => this.validateEmail()}
         />
       </View>
@@ -112,6 +119,7 @@ const DriverSignUp = ({navigation}) => {
           // error={emailError}
           onChangeText={text => {
             let onlyNumbers = text.replace(/\D/g, '');
+
             setData({...data, phone: onlyNumbers});
           }}
           value={data.phone}
@@ -160,6 +168,7 @@ const DriverSignUp = ({navigation}) => {
         <TextInput
           placeholder="Hostel City"
           clearTextOnFocus={false}
+          keyboardType="ascii-capable"
           onChangeText={text => setData({...data, address: text})}
           value={data.address}
           //onBlur={e => this.validatePassword()}
@@ -203,7 +212,7 @@ const DriverSignUp = ({navigation}) => {
       <View style={styles.emailContainer}>
         <Text style={styles.label}>License</Text>
         <TextInput
-          placeholder="2014"
+          placeholder="6139395013013"
           clearTextOnFocus={false}
           onChangeText={text => {
             let onlyNumbers = text.replace(/\D/g, '');
@@ -223,8 +232,10 @@ const DriverSignUp = ({navigation}) => {
         <TextInput
           placeholder="22"
           clearTextOnFocus={false}
+          keyboardType="number-pad"
           onChangeText={text => {
             let onlyNumbers = text.replace(/\D/g, '');
+
             setData({...data, age: onlyNumbers});
           }}
           value={data.age}
@@ -327,6 +338,11 @@ const DriverSignUp = ({navigation}) => {
     ) {
       alert('Please Enter Contact Number');
     } else if (
+      Object.values(contactNumber).length < 11 ||
+      Object.values(contactNumber).length > 11
+    ) {
+      alert('Please Enter 11 digit Contact Number');
+    } else if (
       Object.values(city).length === 0 &&
       user.constructor === Object
     ) {
@@ -336,11 +352,18 @@ const DriverSignUp = ({navigation}) => {
       user.constructor === Object
     ) {
       alert('Please Enter CNIC ');
+    } else if (Object.values(cnic).length < 12 || Object.values(cnic) > 12) {
+      alert('Please Enter 12 digit CNIC Number');
     } else if (
       Object.values(licenseNumber).length === 0 &&
       user.constructor === Object
     ) {
       alert('Please Enter License Number');
+    } else if (
+      Object.values(licenseNumber).length < 12 ||
+      Object.values(licenseNumber).length > 12
+    ) {
+      alert('Please Enter 12 digit License Number');
     } else if (
       Object.values(address).length === 0 &&
       user.constructor === Object
@@ -356,13 +379,19 @@ const DriverSignUp = ({navigation}) => {
       user.constructor === Object
     ) {
       alert('Please Enter Password');
+    } else if (Object.values(password).length < 5) {
+      alert('Please Enter Minimum 6 digit character Password');
     } else if (Object.values(age).length === 0 && user.constructor === Object) {
       alert('Please Enter Age');
+    } else if (age < 18 || age > 55) {
+      alert('Age limit between 18-55');
     } else if (
       Object.values(expectedSalary).length === 0 &&
       user.constructor === Object
     ) {
       alert('Please Enter Expected Salary');
+    } else if (expectedSalary < 1000) {
+      alert('Minimum Salary Will be 1000');
     } else if (regex.test(email) == false) {
       alert('Please Enter Correct Email');
     } else {

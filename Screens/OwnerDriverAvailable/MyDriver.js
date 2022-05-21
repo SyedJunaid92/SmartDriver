@@ -6,6 +6,7 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import * as CONSTANT from '../../Constants/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -159,7 +160,17 @@ const MyDriver = ({navigation}) => {
             flexDirection: 'row',
             alignItems: 'center',
           }}
-          onPress={() => CancelBooking()}>
+          onPress={() =>
+            Alert.alert('Cancel Booking', 'Do you want cancel the booking?', [
+              {text: 'Cancel', style: 'cancel'},
+              {
+                text: 'Yes',
+                onPress: () => {
+                  CancelBooking();
+                },
+              },
+            ])
+          }>
           <MaterialCommunityIcons
             name="cancel"
             size={20}

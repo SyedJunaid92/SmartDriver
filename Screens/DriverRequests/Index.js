@@ -39,7 +39,7 @@ const Index = () => {
   const [refreshing, setRefreshing] = useState(false);
   const requestAction = (status, id) => {
     const user = {driverUserName, status, id};
-    console.log(user);
+
     CONSTANT.API.post('/driver/requestAction', user).then(response => {
       if (response.data.code == 0) {
         alert(response.data.message);

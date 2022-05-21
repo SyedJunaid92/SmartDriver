@@ -73,7 +73,10 @@ const OwnerSignUp = ({navigation}) => {
           placeholder="First Name"
           clearTextOnFocus={false}
           // error={emailError}
-          onChangeText={text => setData({...data, firstName: text})}
+          onChangeText={text => {
+            text = text.replace(/[^A-Za-z]/gi, '');
+            setData({...data, firstName: text});
+          }}
           value={data.firstName}
 
           //onBlur={e => this.validateEmail()}
@@ -89,7 +92,10 @@ const OwnerSignUp = ({navigation}) => {
           placeholder="Last Name"
           clearTextOnFocus={false}
           // error={emailError}
-          onChangeText={text => setData({...data, lastName: text})}
+          onChangeText={text => {
+            text = text.replace(/[^A-Za-z]/gi, '');
+            setData({...data, lastName: text});
+          }}
           value={data.lastName}
           keyboardType="default"
           //onBlur={e => this.validateEmail()}
@@ -166,7 +172,10 @@ const OwnerSignUp = ({navigation}) => {
         <TextInput
           placeholder="Islamabad"
           clearTextOnFocus={false}
-          onChangeText={text => setData({...data, city: text})}
+          onChangeText={text => {
+            text = text.replace(/[^A-Za-z]/gi, '');
+            setData({...data, city: text});
+          }}
           value={data.city}
           //onBlur={e => this.validatePassword()}
         />
@@ -195,7 +204,11 @@ const OwnerSignUp = ({navigation}) => {
         <TextInput
           placeholder="2014"
           clearTextOnFocus={false}
-          onChangeText={text => setData({...data, carModel: text})}
+          onChangeText={text => {
+            text = text.replace(/\D/g, '');
+
+            setData({...data, carModel: text});
+          }}
           value={data.carModel}
           keyboardType="numeric"
           //onBlur={e => this.validatePassword()}
@@ -273,6 +286,11 @@ const OwnerSignUp = ({navigation}) => {
     ) {
       alert('Please Enter Contact Number');
     } else if (
+      Object.values(contactNumber).length < 11 ||
+      Object.values(contactNumber).length > 11
+    ) {
+      alert('Contact number will be 11 digit only');
+    } else if (
       Object.values(city).length === 0 &&
       user.constructor === Object
     ) {
@@ -302,6 +320,8 @@ const OwnerSignUp = ({navigation}) => {
       user.constructor === Object
     ) {
       alert('Please Enter Password');
+    } else if (Object.values(password).length < 8) {
+      alert('Minimum Password length is 8');
     } else if (
       Object.values(carRegCity).length === 0 &&
       user.constructor === Object
